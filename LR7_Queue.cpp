@@ -45,7 +45,7 @@ Node& pop(Queue& queue)
     rezulting_value->information = node->information;
     queue.head = queue.head->next;
     delete node;
-    return*rezulting_value;
+    return *rezulting_value;
 }
 
 unsigned int size(const Queue& queue)
