@@ -5,7 +5,7 @@
 struct Node
 {
     Node* next = nullptr;
-    int information;
+    int information = 0;
 };
 
 struct Queue
