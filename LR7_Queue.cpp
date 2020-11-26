@@ -31,6 +31,18 @@ void destructor(Queue& queue)
     }
 }
 
+unsigned int size(const Queue& queue)
+{
+    int counter = 0;
+    Node* node = queue.head;
+    while (node != queue.tail)
+    {
+        node = node->next;
+        counter++;
+    }
+    return counter;
+}
+
 void push(Queue& queue, Node& node)
 {
     if (queue.head == nullptr)
@@ -57,18 +69,6 @@ Node& pop(Queue& queue)
     queue.head = queue.head->next;
     delete node;
     return *rezulting_value;
-}
-
-unsigned int size(const Queue& queue)
-{
-    int counter = 0;
-    Node* node = queue.head;
-    while (node != queue.tail)
-    {
-        node = node->next;
-        counter++;
-    }
-    return counter;
 }
 
 int main()
