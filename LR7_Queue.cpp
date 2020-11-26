@@ -20,6 +20,17 @@ void constructor(Queue& queue)
     queue.tail = nullptr;
 }
 
+void destructor(Queue& queue)
+{
+    while (queue.head != nullptr)
+    {
+        Node* used = new Node;
+        used = queue.head;
+        queue.head = queue.head->next;
+        delete used;
+    }
+}
+
 void push(Queue& queue, Node& node)
 {
     if (queue.head == nullptr)
@@ -58,17 +69,6 @@ unsigned int size(const Queue& queue)
         counter++;
     }
     return counter;
-}
-
-void destructor(Queue& queue)
-{
-    while (queue.head != nullptr)
-    {
-        Node* used = new Node;
-        used = queue.head;
-        queue.head = queue.head->next;
-        delete used;
-    }
 }
 
 int main()
