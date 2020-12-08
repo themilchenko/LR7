@@ -14,13 +14,37 @@ struct Stack
     Node* tail;
 };
 
-void Constructor(Stack& stack)
+void Constructor(Stack& stack) // A function that initializes the fields of the structure when it is created.
 {
     stack.head = nullptr;
     stack.tail = nullptr;
 }
 
-void push(Stack& stack, Node& node)
+void destructor(Stack& stack) // A function that will clear the memory that was used for the structure.
+{
+    while (stack.tail != nullptr)
+    {
+        Node* used = new Node;
+        used = stack.tail;
+        stack.tail = stack.tail->previous;
+        delete used;
+    }
+}
+
+unsigned int size(const Stack& stack) // Count the number of elements which are in the structure.
+{
+    int counter = 0;
+    Node* node = stack.tail;
+    while (node != stack.head)
+    {
+        node = node->previous;
+        counter++;
+    }
+    counter++;
+    return counter;
+}
+
+void push(Stack& stack, Node& node) // Adding element.
 {
     if (stack.head == nullptr)
     {
@@ -38,38 +62,14 @@ void push(Stack& stack, Node& node)
     }
 }
 
-Node& pop(Stack& stack)
+Node& pop(Stack& stack) // Deleting element.
 {
     Node* rezulting_value = new Node;
     Node* node = stack.tail;
     rezulting_value->information = node->information;
     stack.tail = stack.tail->previous;
     delete node;
-    return*rezulting_value;
-}
-
-unsigned int size(const Stack& stack)
-{
-    int counter = 0;
-    Node* node = stack.tail;
-    while (node != stack.head)
-    {
-        node = node->previous;
-        counter++;
-    }
-    counter++;
-    return counter;
-}
-
-void destructor(Stack& stack)
-{
-    while (stack.tail != nullptr)
-    {
-        Node* used = new Node;
-        used = stack.tail;
-        stack.tail = stack.tail->previous;
-        delete used;
-    }
+    return *rezulting_value;
 }
 
 void print(const Stack& stack)    // Print elements.
@@ -91,13 +91,13 @@ int main()
         push(stack, node);
     }
 
+    std::cout << "There are our elements: ";
     print(stack);
 
     std::cout << std::endl << "The size of stack: " << size(stack);
 
     Node node = pop(stack);
-    std::cout << std::endl << "There are " << node.information
-    << " popped elements in queue" << std::endl;
+    std::cout << std::endl << node.information << std::endl;
 
     destructor(stack);
 
