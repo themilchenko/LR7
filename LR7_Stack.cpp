@@ -28,7 +28,6 @@ void destructor(Stack& stack) // A function that will clear the memory that was 
     {
         stack.size--;
         Node* used = stack.head;
-        used = stack.head;
         stack.tail = stack.tail->previous;
         delete used;
     }
