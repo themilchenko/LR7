@@ -12,20 +12,23 @@ struct Stack
 {
     Node* head;
     Node* tail;
+    unsigned int size;
 };
 
 void Constructor(Stack& stack) // A function that initializes the fields of the structure when it is created.
 {
     stack.head = nullptr;
     stack.tail = nullptr;
+    stack.size = 0;
 }
 
 void destructor(Stack& stack) // A function that will clear the memory that was used for the structure.
 {
-    while (stack.tail != nullptr)
+    while (stack.size != 0)
     {
-        Node* used = new Node;
-        used = stack.tail;
+        stack.size--;
+        Node* used = stack.head;
+        used = stack.head;
         stack.tail = stack.tail->previous;
         delete used;
     }
@@ -33,49 +36,58 @@ void destructor(Stack& stack) // A function that will clear the memory that was 
 
 unsigned int size(const Stack& stack) // Count the number of elements which are in the structure.
 {
-    int counter = 0;
-    Node* node = stack.tail;
-    while (node != stack.head)
-    {
-        node = node->previous;
-        counter++;
-    }
-    counter++;
-    return counter;
+    unsigned int size = stack.size;
+    return size;
 }
 
 void push(Stack& stack, Node& node) // Adding element.
 {
-    if (stack.head == nullptr)
+    if (stack.size == 0)
     {
-        Node* new_element = new Node;
-        new_element->information = node.information;
-        stack.head = new_element;
-        stack.tail = new_element;
+        stack.size++;
+        Node *element = new Node;
+        element->information = node.information;
+        stack.head = element;
+        stack.tail = element;
     }
     else
     {
-        Node* new_element = new Node;
-        new_element->information = node.information;
-        new_element->previous = stack.tail;
-        stack.tail = new_element;
+        stack.size++;
+        Node *element = new Node;
+        element->information = node.information;
+        element->previous = stack.tail;
+        stack.tail = element;
     }
 }
 
 Node& pop(Stack& stack) // Deleting element.
 {
-    Node* rezulting_value = new Node;
-    Node* node = stack.tail;
-    rezulting_value->information = node->information;
+    stack.size--;
+    Node *node = stack.tail;
+    Node *element = new Node;
+    element->information = node->information;
     stack.tail = stack.tail->previous;
     delete node;
-    return *rezulting_value;
+    return *element;
 }
 
-void print(const Stack& stack)    // Print elements.
+void print_stack(const Stack& stack)    // Print elements.
 {
     for (auto i = stack.tail; i != nullptr; i = i->previous)
         std::cout << i->information << ' ';
+}
+
+void print_info(const Stack& stack)
+{
+    if (size(stack) != 0)
+    {
+        std::cout << "Elements of stack: ";
+        print_stack(stack);
+        std::cout << std::endl;
+        std::cout << "Size of stack: " << size(stack) << std::endl;
+    }
+    else
+        std::cout << "There are no elements in stack.";
 }
 
 int main()
@@ -84,23 +96,31 @@ int main()
 
     Constructor(stack);
 
-    for (int i = 10; i > 0; i--)
+    for (int i = 0; i < 10; i++)
     {
         Node node;
         node.information = i;
         push(stack, node);
     }
+    print_info(stack);
 
-    std::cout << "There are our elements: ";
-    print(stack);
+    std::cout << std::endl;
 
-    std::cout << std::endl << "The size of stack: " << size(stack);
+    std::cout << "Popped element: " << pop(stack).information << std::endl;
+    std::cout << "Popped element: " << pop(stack).information << std::endl;
+    std::cout << "Popped element: " << pop(stack).information << std::endl;
 
-    Node node = pop(stack);
-    std::cout << std::endl << node.information << std::endl;
+    std::cout << std::endl;
+
+    print_info(stack);
 
     destructor(stack);
 
-    std::cout << "There are " << size(stack) << " elements in queue" << std::endl;
+    std::cout << std::endl;
+
+    print_info(stack);
+
+    std::cout << std::endl;
+
     return 0;
 }
