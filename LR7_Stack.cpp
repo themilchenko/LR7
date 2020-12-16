@@ -10,14 +10,12 @@ struct Node
 
 struct Stack
 {
-    Node* head;
     Node* tail;
     unsigned int size;
 };
 
 void Constructor(Stack& stack) // A function that initializes the fields of the structure when it is created.
 {
-    stack.head = nullptr;
     stack.tail = nullptr;
     stack.size = 0;
 }
@@ -27,7 +25,7 @@ void destructor(Stack& stack) // A function that will clear the memory that was 
     while (stack.size != 0)
     {
         stack.size--;
-        Node* used = stack.head;
+        Node* used = stack.tail;
         stack.tail = stack.tail->previous;
         delete used;
     }
@@ -46,7 +44,6 @@ void push(Stack& stack, Node& node) // Adding element.
         stack.size++;
         Node *element = new Node;
         element->information = node.information;
-        stack.head = element;
         stack.tail = element;
     }
     else
@@ -66,7 +63,6 @@ Node& pop(Stack& stack) // Deleting element.
     Node *element = new Node;
     element->information = node->information;
     stack.tail = stack.tail->previous;
-    delete node;
     return *element;
 }
 
