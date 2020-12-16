@@ -63,7 +63,6 @@ Node& pop(Queue& queue)    // Deleting element.
     queue.size--;
     Node *node = queue.tail;
     queue.tail = queue.tail->next;
-    delete node;
     return *node;
 }
 
